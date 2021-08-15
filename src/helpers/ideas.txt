@@ -1,0 +1,47 @@
+
+//recursively find parent
+
+function find({ tree = [], ...object }, name) {
+    var result;
+    if (object.name === name) return object;
+    return tree.some(o => result = find(o, name)) && Object.assign({}, object, { tree: [result] });
+}
+
+var datas = { tree: [{ name: 'name1', tree: [{ name: 'name2' }, { name: 'name3' }, { name: 'name4', tree: [{ name: 'name5' }, { name: 'name6' }] }, { name: 'name7' }] }, { name: 'name8', tree: [{ name: 'name9' }] }] };
+
+console.log(find(datas, 'name5'));
+//
+
+
+
+const search = (tree, target) => {
+  if (tree.id === target) {
+    return tree.label;
+  }
+  
+  for (const child of tree.child) {
+    const res = search(child, target);
+    
+    if (res) {
+      return res;
+    }
+  }
+};
+
+const tree = {"id":1,"label":"A","child":[{"id":2,"label":"B","child":[{"id":5,"label":"E","child":[]},{"id":6,"label":"F","child":[]},{"id":7,"label":"G","child":[]}]},{"id":3,"label":"C","child":[]},{"id":4,"label":"D","child":[{"id":8,"label":"H","child":[]},{"id":9,"label":"I","child":[]}]}]};
+
+console.log(search(tree, 1));
+console.log(search(tree, 6));
+console.log(search(tree, 99));
+
+
+
+
+
+
+    methodThatForcesUpdate() {
+      // ...
+      this.$forceUpdate();  // Notice we have to use a $ here
+      // ...
+    }
+
