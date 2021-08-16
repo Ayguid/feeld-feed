@@ -1,0 +1,59 @@
+body {
+  background-color: #dedcdc;
+  overscroll-behavior: contain;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.small {
+  max-width: 600px;
+  margin: 150px auto;
+}
+
+.formButton {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  background-color: #f8f9fa;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.feed {
+  height: calc(100vh - 120px);
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+.feed::-webkit-scrollbar {
+  width: 0.15rem;
+  display: none;
+}
+/*
+.feed::-webkit-scrollbar-track {
+  background: #dedcdc;
+}
+
+.feed::-webkit-scrollbar-thumb {
+  background: #6649b8;
+  border-radius: 30px;
+}
+*/

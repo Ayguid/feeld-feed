@@ -36,6 +36,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
+    path: '/forgotPassword',
+    name: 'ForgotPassword',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue')
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
+    beforeEnter: guardMyroute,
+  },
+  {
     path: '/',
     name: 'Memories',
     component: Memories,
