@@ -3,7 +3,6 @@ body {
   overscroll-behavior: contain;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll;
 }
 
 body::-webkit-scrollbar {
@@ -21,7 +20,7 @@ body::-webkit-scrollbar {
 
 #app-body {
   padding-top: 56px;
-  min-height: 100vh; /*calc(100vh - 112px);*/
+  min-height: calc(100vh - 112px);
   padding-bottom: 56px;
 }
 
@@ -38,4 +37,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+.blah {
+  margin-top: 20vh;
 }

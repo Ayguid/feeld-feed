@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="blah">
     Login
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
@@ -25,6 +25,7 @@
           required
         ></b-form-input>
       </b-form-group>
+
       <b-overlay
         :show="busy"
         rounded
@@ -33,12 +34,11 @@
         spinner-variant="primary"
         class="d-inline-block"
       >
-        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="submit" variant="primary" class="mr-1">Submit</b-button>
       </b-overlay>
       <!--
-      <b-button type="submit" variant="primary">Submit</b-button>
-      -->
       <b-button type="reset" variant="danger">Reset</b-button>
+      -->
     </b-form>
 
     <p class="p-2">

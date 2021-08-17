@@ -1,42 +1,43 @@
 <template>
   <div class="">
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group label="" label-for="tags-validation" :state="state">
-        <b-form-tags
-          input-id="tags-validation"
-          v-model="tags"
-          :input-attrs="{ 'aria-describedby': 'tags-validation-help' }"
-          :tag-validator="tagValidator"
-          :state="state"
-          separator=" "
-          tagVariant="info"
-        ></b-form-tags>
+      <b-row no-gutters>
+        <b-col cols="10">
+          <b-form-group label="" label-for="tags-validation" :state="state">
+            <b-form-tags
+              input-id="tags-validation"
+              v-model="tags"
+              :input-attrs="{ 'aria-describedby': 'tags-validation-help' }"
+              :tag-validator="tagValidator"
+              :state="state"
+              separator=" "
+              tagVariant="info"
+            ></b-form-tags>
 
-        <template #invalid-feedback>
-          You must provide at least {{ tagsMin }} tags and no more than
-          {{ tagsMax }}
-        </template>
+            <template #invalid-feedback>
+              You must provide at least {{ tagsMin }} tags and no more than
+              {{ tagsMax }}
+            </template>
 
-        <template #description>
-          <div id="tags-validation-help">
-            Tags must be {{ tagMinChar }} to {{ tagMaxChar }} characters in
-            length and all lower case. Enter tags separated by spaces or press
-            enter.
+            <template #description>
+              <div id="tags-validation-help">
+                Tags must be {{ tagMinChar }} to {{ tagMaxChar }} characters in
+                length and all lower case. Enter tags separated by spaces or
+                press enter.
+              </div>
+            </template>
+          </b-form-group>
+        </b-col>
+        <b-col class="" cols="2">
+          <div class="d-flex justify-content-center">
+            <b-form-group>
+              <b-button type="submit" variant="outline-primary"
+                ><b-icon icon="plus" scale="2"></b-icon
+              ></b-button>
+            </b-form-group>
           </div>
-        </template>
-      </b-form-group>
-
-      <b-form-group>
-        <b-button type="submit" variant="outline-primary"
-          ><b-icon icon="plus" scale="2"></b-icon
-        ></b-button>
-        &nbsp;
-        <!--
-      <b-button type="reset" variant="outline-danger"
-        ><b-icon icon="arrow-counterclockwise" scale="1"></b-icon
-      ></b-button>
-      -->
-      </b-form-group>
+        </b-col>
+      </b-row>
     </b-form>
   </div>
 </template>
@@ -104,4 +105,3 @@ export default {
   },
 };
 </script>
-

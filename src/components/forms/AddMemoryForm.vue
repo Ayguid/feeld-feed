@@ -58,6 +58,7 @@ export default {
       form: {
         text: "",
         feelings: [],
+        tags: [],
       },
       show: true,
     };

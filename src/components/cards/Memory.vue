@@ -34,6 +34,12 @@
           </span>
           <hr />
         </span>
+
+        <div>
+          <span class="mr-2" v-for="(tag, i) in data.tags" :key="i"
+            >#{{ tag }}</span
+          >
+        </div>
       </b-card-text>
 
       <div id="controls">

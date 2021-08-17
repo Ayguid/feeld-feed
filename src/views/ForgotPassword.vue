@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="blah">
     Forgot Password
     <div>
       <b-form @submit="forgotPassword" @reset="onResetMailForm" v-if="show">

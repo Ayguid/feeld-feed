@@ -1,7 +1,6 @@
 <template>
-  <div class="">
+  <div class="blah">
     Register
-    {{ errors }}
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-1"
@@ -56,10 +55,11 @@
         spinner-variant="primary"
         class="d-inline-block"
       >
-        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button class="mr-1" type="submit" variant="primary">Submit</b-button>
       </b-overlay>
-
+      <!--
       <b-button type="reset" variant="danger">Reset</b-button>
+      -->
     </b-form>
 
     <p class="p-2">Have an account? <b-link to="/login">Login</b-link></p>

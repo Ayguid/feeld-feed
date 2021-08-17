@@ -18,20 +18,10 @@
     </div>
 
     <div v-if="userMemories.length == 0">
-      Please add a Memory 
-    </diV>
+      Please add a Memory
+    </div>
 
-
-    <!--
-    <b-form-input v-model="selectedFeeling" list="my-list-id"></b-form-input>
-    <datalist id="my-list-id">
-      <option v-for="(feeling, i) in feelings" :key="i" :value="feeling.id">{{feeling.label}}</option>
-    </datalist>
-    -->
     <div class="">
-      <!--
-      <transition-group name="list-complete"></transition-group>
-      -->
       <div
         class="mb-2 list-complete-item"
         v-for="userMemory in userMemories"
@@ -48,11 +38,7 @@
     <b-modal v-model="tagModalShow" ref="my-modal" hide-footer title="Feel">
       <div class="d-block text-center">
         <h3>Assign Some tags if you want to</h3>
-        <div>
-          <!--
-          {{ selectedMemory }}
-          -->
-        </div>
+        <div></div>
         <MemoryTagForm />
       </div>
     </b-modal>
