@@ -12,6 +12,7 @@
               :state="state"
               separator=" "
               tagVariant="info"
+              placeholder="Add Tags/Triggers"
             ></b-form-tags>
 
             <template #invalid-feedback>
@@ -21,9 +22,9 @@
 
             <template #description>
               <div id="tags-validation-help">
-                Tags must be {{ tagMinChar }} to {{ tagMaxChar }} characters in
-                length and all lower case. Enter tags separated by spaces or
-                press enter.
+                Tags/Triggers must be {{ tagMinChar }} to
+                {{ tagMaxChar }} characters in length and all lower case. Enter
+                tags separated by spaces or press enter.
               </div>
             </template>
           </b-form-group>

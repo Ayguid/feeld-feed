@@ -1,28 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Memories from '../views/Memories.vue'
-//import Tags from '../views/Tags.vue'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
-function guardMyroute(to, from, next)
-{
- var isAuthenticated= false;
-//this is just an example. You will have to find a better or 
-// centralised way to handle you localstorage data handling 
-if(localStorage.getItem('access_token'))
-  isAuthenticated = true;
- else
-  isAuthenticated= false;
- if(isAuthenticated) 
- {
-  next(); // allow to enter route
- } 
- else
- {
-  next('/login'); // go to '/login';
- }
-}
 
 const routes = [
   {
@@ -44,13 +26,19 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
-    beforeEnter: guardMyroute,
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/',
     name: 'Memories',
     component: Memories,
-    beforeEnter: guardMyroute,
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
@@ -60,9 +48,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Foods.vue'),
-    beforeEnter : guardMyroute,
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
   },
-  
+
   {
     path: '/analisis',
     name: 'Analisis',
@@ -70,7 +61,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Analisis.vue'),
-    beforeEnter : guardMyroute,
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
@@ -80,7 +74,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Tags.vue'),
-    beforeEnter : guardMyroute,
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -90,4 +87,32 @@ const router = new VueRouter({
   routes
 })
 
+//Guards
+router.beforeEach((to, from, next) => {
+  const authenticatedUser = store.getters.isLogged;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !authenticatedUser) next('login')// si no auth mandarlo al login
+  else if (!requiresAuth && authenticatedUser) next('/')// si esta auth no dejarlo ir al login/register
+  else next();// si todo ok ir al intended place
+});
+//
+
 export default router
+/*
+function guardMyroute(to, from, next)
+{
+ var isAuthenticated= false;
+if(localStorage.getItem('access_token'))
+  isAuthenticated = true;
+ else
+  isAuthenticated= false;
+ if(isAuthenticated)
+ {
+  next(); // allow to enter route
+ }
+ else
+ {
+  next('/login'); // go to '/login';
+ }
+}
+*/

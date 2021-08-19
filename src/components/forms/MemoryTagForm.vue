@@ -78,17 +78,20 @@
 <script>
 export default {
   name: "MemoryTagForm",
-  props: ["memory"],
+  //props: ["memory"],
   data() {
     return {
       search: "",
       show: true,
       form: {
-        tags: this.memory.tags || [],
+        tags: [],
       },
     };
   },
   computed: {
+    memory() {
+      return this.$store.state.selectedMemory;
+    },
     criteria() {
       // Compute the search criteria
       return this.search.trim().toLowerCase();
@@ -129,12 +132,9 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       //alert(JSON.stringify(this.form))
-      const obj = {
-        memory_id: this.memory.id,
-        tags: this.form.tags,
-      };
       //console.log(obj);
-      this.$store.dispatch("addTagsToMemory", obj);
+      this.$store.dispatch("addTagsToMemory", this.form.tags);
+      //this.$store.dispatch("selectUserMemory", null); // reset stores selectedMemory
       this.$emit("close_modal");
       this.onReset(event);
       //alert(JSON.stringify(this.form));
@@ -149,6 +149,9 @@ export default {
         this.show = true;
       });
     },
+  },
+  mounted() {
+    this.form.tags = this.memory.tags;
   },
 };
 </script>

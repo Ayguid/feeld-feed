@@ -1,68 +1,82 @@
 <template>
   <div class="blah">
-    Register
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Enter email"
-        ></b-form-input>
-        <p class="text-danger" v-text="errors.email"></p>
-      </b-form-group>
+    <b-card title="Register" sub-title="">
+      <b-card-text>
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form-group
+            id="input-group-1"
+            label="Email address:"
+            label-for="input-1"
+            description="We'll never share your email with anyone else."
+          >
+            <b-form-input
+              id="input-1"
+              v-model="form.email"
+              type="email"
+              placeholder="Enter email"
+            ></b-form-input>
+            <p class="text-danger" v-text="errors.email"></p>
+          </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          placeholder="Enter name"
-        ></b-form-input>
-      </b-form-group>
+          <b-form-group
+            id="input-group-2"
+            label="Your Name:"
+            label-for="input-2"
+          >
+            <b-form-input
+              id="input-2"
+              v-model="form.name"
+              placeholder="Enter name"
+            ></b-form-input>
+            <p class="text-danger" v-text="errors.name"></p>
+          </b-form-group>
 
-      <b-form-group id="input-group-3" label="Your Pass:" label-for="input-3">
-        <b-form-input
-          id="input-2"
-          v-model="form.password"
-          placeholder="Enter pass"
-        ></b-form-input>
-        <p class="text-danger" v-text="errors.password"></p>
-      </b-form-group>
+          <b-form-group
+            id="input-group-3"
+            label="Your Pass:"
+            label-for="input-3"
+          >
+            <b-form-input
+              id="input-2"
+              v-model="form.password"
+              placeholder="Enter pass"
+            ></b-form-input>
+            <p class="text-danger" v-text="errors.password"></p>
+          </b-form-group>
 
-      <b-form-group
-        id="input-group-4"
-        label="Your Pass Confirm:"
-        label-for="input-4"
-      >
-        <b-form-input
-          id="input-2"
-          v-model="form.passwordconfirm"
-          placeholder="Enter pass confirmation"
-        ></b-form-input>
-        <p class="text-danger" v-text="errors.password"></p>
-      </b-form-group>
+          <b-form-group
+            id="input-group-4"
+            label="Your Pass Confirm:"
+            label-for="input-4"
+          >
+            <b-form-input
+              id="input-2"
+              v-model="form.passwordconfirm"
+              placeholder="Enter pass confirmation"
+            ></b-form-input>
+            <p class="text-danger" v-text="errors.password"></p>
+          </b-form-group>
 
-      <b-overlay
-        :show="busy"
-        rounded
-        opacity="0.6"
-        spinner-small
-        spinner-variant="primary"
-        class="d-inline-block"
-      >
-        <b-button class="mr-1" type="submit" variant="primary">Submit</b-button>
-      </b-overlay>
-      <!--
+          <b-overlay
+            :show="busy"
+            rounded
+            opacity="0.6"
+            spinner-small
+            spinner-variant="primary"
+            class="d-inline-block"
+          >
+            <b-button class="mr-1" type="submit" variant="primary"
+              >Submit</b-button
+            >
+          </b-overlay>
+          <!--
       <b-button type="reset" variant="danger">Reset</b-button>
       -->
-    </b-form>
+        </b-form>
 
-    <p class="p-2">Have an account? <b-link to="/login">Login</b-link></p>
+        <p class="p-2">Have an account? <b-link to="/login">Login</b-link></p>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 

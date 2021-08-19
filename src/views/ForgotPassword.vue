@@ -1,94 +1,102 @@
 <template>
   <div class="blah">
-    Forgot Password
-    <div>
-      <b-form @submit="forgotPassword" @reset="onResetMailForm" v-if="show">
-        <b-form-group
-          id="input-group-1"
-          label="Email address:"
-          label-for="input-1"
-          description="We'll send you a code."
-        >
-          <b-form-input
-            id="input-1"
-            v-model="form.email"
-            type="email"
-            placeholder="Enter email"
-            required
-          ></b-form-input>
-        </b-form-group>
+    <b-card title="Forgot Password:" sub-title="">
+      <b-card-text>
+        <div>
+          <b-form @submit="forgotPassword" @reset="onResetMailForm" v-if="show">
+            <b-form-group
+              id="input-group-1"
+              label="Email address:"
+              label-for="input-1"
+              description="We'll send you a code."
+            >
+              <b-form-input
+                id="input-1"
+                v-model="form.email"
+                type="email"
+                placeholder="Enter email"
+                required
+              ></b-form-input>
+            </b-form-group>
 
-        <div v-if="!sendCode">
-          <b-overlay
-            :show="busy"
-            rounded
-            opacity="0.6"
-            spinner-small
-            spinner-variant="primary"
-            class="d-inline-block"
-          >
-            <b-button type="submit" variant="primary">Submit</b-button>
-          </b-overlay>
-        </div>
-        <!--
+            <div v-if="!sendCode">
+              <b-overlay
+                :show="busy"
+                rounded
+                opacity="0.6"
+                spinner-small
+                spinner-variant="primary"
+                class="d-inline-block"
+              >
+                <b-button type="submit" variant="primary">Submit</b-button>
+              </b-overlay>
+            </div>
+            <!--
       <b-button type="submit" variant="primary">Submit</b-button>
       
         <b-button type="reset" variant="danger">Reset</b-button>-->
-      </b-form>
-    </div>
-    <div v-if="sendCode">
-      <b-form @submit="resetPassword" @reset="onResetPasswordForm" v-if="show">
-        <b-input-group class="mb-2" size="lg">
-          <b-input-group-prepend is-text>
-            <b-icon icon="lock"></b-icon>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model="form.code"
-            type="text"
-            placeholder="code"
-          ></b-form-input>
-        </b-input-group>
-        <b-input-group class="mb-2" size="lg">
-          <b-input-group-prepend is-text>
-            <b-icon icon="eye-slash-fill"></b-icon>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model="form.password"
-            type="password"
-            placeholder="new password"
-          ></b-form-input>
-        </b-input-group>
-
-        <b-input-group class="mb-2" size="lg">
-          <b-input-group-prepend is-text>
-            <b-icon icon="eye-slash-fill"></b-icon>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model="form.passwordConfirm"
-            type="password"
-            placeholder="new password confirm"
-          ></b-form-input>
-        </b-input-group>
+          </b-form>
+        </div>
 
         <div v-if="sendCode">
-          <b-overlay
-            :show="busy"
-            rounded
-            opacity="0.6"
-            spinner-small
-            spinner-variant="primary"
-            class="d-inline-block"
+          <b-form
+            @submit="resetPassword"
+            @reset="onResetPasswordForm"
+            v-if="show"
           >
-            <b-button type="submit" variant="primary">Submit</b-button>
-          </b-overlay>
-          <!--
+            <b-input-group class="mb-2" size="lg">
+              <b-input-group-prepend is-text>
+                <b-icon icon="lock"></b-icon>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model="form.code"
+                type="text"
+                placeholder="code"
+              ></b-form-input>
+            </b-input-group>
+            <b-input-group class="mb-2" size="lg">
+              <b-input-group-prepend is-text>
+                <b-icon icon="eye-slash-fill"></b-icon>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model="form.password"
+                type="password"
+                placeholder="new password"
+              ></b-form-input>
+            </b-input-group>
+
+            <b-input-group class="mb-2" size="lg">
+              <b-input-group-prepend is-text>
+                <b-icon icon="eye-slash-fill"></b-icon>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model="form.passwordConfirm"
+                type="password"
+                placeholder="new password confirm"
+              ></b-form-input>
+            </b-input-group>
+
+            <div v-if="sendCode">
+              <b-overlay
+                :show="busy"
+                rounded
+                opacity="0.6"
+                spinner-small
+                spinner-variant="primary"
+                class="d-inline-block"
+              >
+                <b-button type="submit" variant="primary">Submit</b-button>
+              </b-overlay>
+              <!--
           <b-button type="submit" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           -->
+            </div>
+          </b-form>
         </div>
-      </b-form>
-    </div>
-    <p class="p-2">Have an account? <b-link to="/login">Login</b-link></p>
+        <p class="p-2">Have an account? <b-link to="/login">Login</b-link></p>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 

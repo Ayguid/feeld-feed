@@ -1,52 +1,61 @@
 <template>
   <div class="blah">
-    Login
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Enter email"
-          required
-        ></b-form-input>
-      </b-form-group>
+    <b-card title="Login" sub-title="">
+      <b-card-text>
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form-group
+            id="input-group-1"
+            label="Email address:"
+            label-for="input-1"
+            description="We'll never share your email with anyone else."
+          >
+            <b-form-input
+              id="input-1"
+              v-model="form.email"
+              type="email"
+              placeholder="Enter email"
+              required
+            ></b-form-input>
+          </b-form-group>
 
-      <b-form-group id="input-group-3" label="Your Pass:" label-for="input-3">
-        <b-form-input
-          id="input-2"
-          v-model="form.password"
-          placeholder="Enter pass"
-          required
-        ></b-form-input>
-      </b-form-group>
+          <b-form-group
+            id="input-group-3"
+            label="Your Pass:"
+            label-for="input-3"
+          >
+            <b-form-input
+              id="input-2"
+              v-model="form.password"
+              placeholder="Enter pass"
+              required
+            ></b-form-input>
+          </b-form-group>
 
-      <b-overlay
-        :show="busy"
-        rounded
-        opacity="0.6"
-        spinner-small
-        spinner-variant="primary"
-        class="d-inline-block"
-      >
-        <b-button type="submit" variant="primary" class="mr-1">Submit</b-button>
-      </b-overlay>
-      <!--
+          <b-overlay
+            :show="busy"
+            rounded
+            opacity="0.6"
+            spinner-small
+            spinner-variant="primary"
+            class="d-inline-block"
+          >
+            <b-button type="submit" variant="primary" class="mr-1"
+              >Submit</b-button
+            >
+          </b-overlay>
+          <!--
       <b-button type="reset" variant="danger">Reset</b-button>
       -->
-    </b-form>
+        </b-form>
 
-    <p class="p-2">
-      Dont have an account? <b-link to="/register">Register</b-link>
-    </p>
-    <p class="p-2">
-      <b-link to="/forgotPassword">Forgot Password?</b-link>
-    </p>
+        <p class="p-2">
+          Dont have an account? <b-link to="/register">Register</b-link>
+        </p>
+        <p class="p-2">
+          <b-link to="/forgotPassword">Forgot Password?</b-link>
+        </p>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 

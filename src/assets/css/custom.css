@@ -3,6 +3,8 @@ body {
   overscroll-behavior: contain;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 body::-webkit-scrollbar {
@@ -11,17 +13,24 @@ body::-webkit-scrollbar {
 
 /*app layout start*/
 #top-menu {
+  /*
   width: 100%;
   height: 56px;
   position: fixed;
   z-index: 100;
-  top: 0;
+  top: 0;*/
 }
 
 #app-body {
-  padding-top: 56px;
-  min-height: calc(100vh - 112px);
-  padding-bottom: 56px;
+  /*margin-top: 56px;*/
+  height: calc(100vh - 112px);
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+#app-body::-webkit-scrollbar {
+  width: 0.15rem;
+  display: none;
 }
 
 #bottom-menu {
@@ -40,4 +49,9 @@ body::-webkit-scrollbar {
 }
 .blah {
   margin-top: 20vh;
+}
+
+/**/
+table#table-transition-example .flip-list-move {
+  transition: transform 1s;
 }

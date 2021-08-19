@@ -1,9 +1,12 @@
 <template>
   <div>
+    <!--
+    {{ $store.state.selectedMemory }}
+  -->
     <b-row no-gutters>
       <b-col class="" cols="10">
         <div>
-          <b-form-select v-model="selectedFeeling" class="mb-3 ">
+          <b-form-select v-model="filterFeeling" class="mb-2 ">
             <b-form-select-option :value="null"
               >Filter by Feel -- All</b-form-select-option
             >
@@ -21,7 +24,7 @@
           <b-button
             type="submit"
             variant="outline-primary"
-            @click="modalShow = !modalShow"
+            @click="actionInModal('add-memory')"
             ><b-icon icon="plus" scale="2"></b-icon
           ></b-button>
         </div>
@@ -43,9 +46,8 @@
                 :key="userMemory.id"
               >
                 <MemoryCard
-                  @open_modal="openInModal($event)"
-                  @delete_memory="deleteMemory($event)"
-                  :data="userMemory"
+                  @memory-action="actionInModal($event)"
+                  :memory="userMemory"
                 />
               </div>
             </div>
@@ -54,21 +56,19 @@
       </b-col>
     </b-row>
 
-    <b-modal v-model="modalShow" ref="my-modal" hide-footer title="Feel">
-      <div class="d-block text-center">
-        <h3>Hello!</h3>
-      </div>
-      <AddForm @close_modal="modalShow = !modalShow" />
-    </b-modal>
-    <b-modal v-model="tagModalShow" ref="my-modal" hide-footer title="Feel">
-      <div class="d-block text-center">
-        <h5>Assign Some tags if you want to</h5>
-        <div></div>
-        <MemoryTagForm
-          @close_modal="tagModalShow = !tagModalShow"
-          :memory="selectedMemory"
-        />
-      </div>
+    <b-modal
+      :centered="true"
+      @hidden="resetModal"
+      v-model="modalShow"
+      ref="my-modal"
+      hide-footer
+      title="Feel"
+    >
+      <!-- v-bind="child_component_props" -->
+      <component
+        @close_modal="modalShow = !modalShow"
+        :is="child_component"
+      ></component>
     </b-modal>
   </div>
 </template>
@@ -76,32 +76,44 @@
 <script>
 // @ is an alias to /src
 //import Feed from "@/components/Feed.vue";
-import AddForm from "@/components/forms/AddMemoryForm.vue";
+import MemoryForm from "@/components/forms/AddMemoryForm.vue";
 import MemoryCard from "@/components/cards/Memory.vue";
 import MemoryTagForm from "@/components/forms/MemoryTagForm.vue";
-
+import DeleteMemoryForm from "@/components/forms/DeleteMemoryForm.vue";
 export default {
   name: "Home",
-  data() {
-    return {
-      modalShow: false,
-      selectedFeeling: null,
-      selectedMemory: {},
-      tagModalShow: false,
-    };
-  },
   components: {
     //Feed,
     MemoryCard,
-    MemoryTagForm,
-    AddForm,
+    //MemoryTagForm,
+    //MemoryForm,
   },
+  data() {
+    return {
+      modalShow: false, // false
+      filterFeeling: null,
+      //selectedMemory: {},
+      //tagModalShow: false,
+      child_component: "", // ""
+      MemoryForm,
+      MemoryTagForm,
+      DeleteMemoryForm,
+    };
+  },
+
   computed: {
+    /*
+    child_component_props: function() {
+      if (this.child_component == this.MemoryTagForm) {
+        return { memory: this.selectedMemory };
+      }
+      return {};
+    },*/
     userMemories() {
       let x = [];
-      if (this.selectedFeeling) {
+      if (this.filterFeeling) {
         x = this.$store.state.userMemories.filter((memory) =>
-          memory.feelings.some((o) => o.id == this.selectedFeeling)
+          memory.feelings.some((o) => o.id == this.filterFeeling)
         );
       } else {
         x = this.$store.state.userMemories;
@@ -113,26 +125,25 @@ export default {
     },
   },
   methods: {
-    async deleteMemory(id) {
-      console.log(id);
-      const res = await this.$bvModal.msgBoxConfirm("Are you sure?", {
-        title: "Confirmation",
-        size: "sm",
-        buttonSize: "sm",
-        okTitle: "Yes",
-        okVariant: "success",
-        cancelTitle: "No",
-        cancelVariant: "info",
-        headerClass: "p-2 border-bottom-0",
-        footerClass: "p-2 border-top-0",
-        centered: true,
-      });
-      if (res) this.$store.dispatch("deleteUserMemory", id);
+    async resetModal() {
+      await this.$store.dispatch("selectUserMemory", null);
     },
-    openInModal(obj) {
-      this.tagModalShow = true;
-      this.selectedMemory = obj;
-      //console.log(obj);
+    actionInModal(action) {
+      //console.log(action);
+      this.modalShow = true;
+      switch (action) {
+        case "add-memory":
+        case "edit-memory":
+          this.child_component = this.MemoryForm;
+          break;
+        case "tag-memory":
+          this.child_component = this.MemoryTagForm;
+          break;
+        case "delete-memory":
+          this.child_component = this.DeleteMemoryForm;
+          break;
+        default:
+      }
     },
   },
 };

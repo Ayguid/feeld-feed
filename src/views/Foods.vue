@@ -3,7 +3,7 @@
     <b-row no-gutters>
       <b-col class="" cols="10">
         <div>
-          <b-form-select class="mb-3 ">
+          <b-form-select class="mb-2">
             <b-form-select-option :value="null"
               >Filter by -- All</b-form-select-option
             >

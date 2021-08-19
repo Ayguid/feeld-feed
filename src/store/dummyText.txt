@@ -1,0 +1,118 @@
+//token demo
+{
+    "access_token": "45|hOdFcMr9IdMPRYvhv9Ha7FVY2h2ogy4fGz2fuwAZ",
+    "token_type": "Bearer"
+}
+
+//user demo
+{
+    "id": 1,
+    "name": "Guido",
+    "email": "guidoaimar@gmail.com",
+    "email_verified_at": null,
+    "created_at": "2021-08-16T00:12:02.000000Z",
+    "updated_at": "2021-08-17T00:59:55.000000Z"
+}
+
+
+
+//memories demo
+[
+    {
+        "isLocked": false,
+        "text": "Hoy no me siento tan mal",
+        "feelings": [
+            {
+                "id": "A2",
+                "parent_id": null,
+                "label": "Surprised 😯",
+                "children": []
+            },
+            {
+                "id": 111,
+                "parent_id": null,
+                "label": "Sad 😔",
+                "children": [
+                    {
+                        "id": 124,
+                        "parent_id": 111,
+                        "label": "Vulnerable 😔",
+                        "children": []
+                    }
+                ]
+            }
+        ],
+        "tags": [
+            "health"
+        ],
+        "id": "ksi6rkh7w1peohrepi",
+        "date": "2021-08-19T00:29:02.443Z"
+    },
+    {
+        "isLocked": false,
+        "text": "Estoy contento por ir a cordoba con amigos ",
+        "feelings": [
+            {
+                "id": "A0",
+                "parent_id": null,
+                "label": "Happy 😀",
+                "children": [
+                    {
+                        "id": 1,
+                        "parent_id": "A0",
+                        "label": "Optimistic 😀",
+                        "children": [
+                            {
+                                "id": 3,
+                                "parent_id": 1,
+                                "label": "Inspired 😀",
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "tags": [
+            "friends",
+            "hobbies"
+        ],
+        "id": "ksi6umtv392rbjnpf23",
+        "date": "2021-08-19T00:31:25.459Z"
+    }
+]
+
+
+//tags demo
+[
+    {
+        "id": "ksi6s9e3ieivio5231i",
+        "label": "health",
+        "date": "2021-08-19T00:29:34.731Z"
+    },
+    {
+        "id": "ksi6s9e3hot99pp1a6",
+        "label": "family",
+        "date": "2021-08-19T00:29:34.731Z"
+    },
+    {
+        "id": "ksi6s9e3pq2wjawj4cs",
+        "label": "friends",
+        "date": "2021-08-19T00:29:34.731Z"
+    },
+    {
+        "id": "ksi6s9e38g3wx1310cd",
+        "label": "job",
+        "date": "2021-08-19T00:29:34.731Z"
+    },
+    {
+        "id": "ksi6s9e3jexluntnu7f",
+        "label": "hobbies",
+        "date": "2021-08-19T00:29:34.731Z"
+    },
+    {
+        "id": "ksi6s9e3g9bgqba7wcn",
+        "label": "chuki",
+        "date": "2021-08-19T00:29:34.731Z"
+    }
+]

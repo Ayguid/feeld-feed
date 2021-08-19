@@ -45,7 +45,8 @@
     <div>
       <p>Ex: #son, #family, #job, #behaviour, #food, #eggs, not feelings!</p>
       <p>
-        This tags we will later relate to multiple memories. Keep it simple...
+        This tags/triggers we will later relate to multiple memories. Keep it
+        simple...
       </p>
     </div>
   </div>

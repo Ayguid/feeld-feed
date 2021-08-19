@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <div id="top-menu" v-if="$store.getters.isLogged">
+    <div id="top-menu">
+      <!-- $store.getters.isLogged -->
       <TopNav />
     </div>
     <div id="app-body">
+      <!--{{ $store.getters.isLogged }}-->
       <div class="container pt-2" style="">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
       </div>
     </div>
-    <div id="bottom-menu" v-if="$store.getters.isLogged">
+    <div id="bottom-menu">
       <BottomNav />
     </div>
   </div>

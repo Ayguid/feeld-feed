@@ -1,20 +1,20 @@
 <template>
   <div class="">
-    <BarChartFile :chart-data="datacollection" :options="chartOptions" />
+    <BarChart :chart-data="datacollection" :options="chartOptions" />
   </div>
 </template>
 
 <script>
-import BarChartFile from "@/components/charts/BarChartFile.js";
+import BarChart from "@/components/charts/BarChart.js";
 
 export default {
-  name: "BarChart",
+  name: "FeelingsChart",
   props: {
     msg: String,
     //datacollection: Object,
   },
   components: {
-    BarChartFile,
+    BarChart,
   },
   data() {
     return {
@@ -51,7 +51,8 @@ export default {
       var xAxis = [];
       var datasets = [
         {
-          label: "Value",
+          //type: "line",
+          label: "Memory amount",
           backgroundColor: [],
           data: [],
         },

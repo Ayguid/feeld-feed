@@ -15,7 +15,7 @@
       ></b-button>
       <!--other button -->
       <b-button class="m-2" variant="outline-primary">
-        <b-icon icon="lock-fill" aria-hidden="true"></b-icon>
+        <b-icon icon="eye-slash-fill" aria-hidden="true"></b-icon>
       </b-button>
     </div>
   </div>

@@ -16,18 +16,26 @@ const mutations = {
         localStorage.removeItem('access_token')
         localStorage.removeItem('user')
       },
-      ADD_USER_MEMORY (state, feeling){
-        state.userMemories.push(feeling)
+      ADD_USER_MEMORY (state, memory){
+        state.userMemories.push(memory)
         localStorage.setItem('userMemories', JSON.stringify(state.userMemories))
       },
-      DELETE_USER_MEMORY (state, id) {
-        state.userMemories = state.userMemories.filter((feeling) => feeling.id != id)
+      SELECT_USER_MEMORY (state, memory){
+        state.selectedMemory = memory
+      },
+      EDIT_USER_MEMORY(state, memory){
+        console.log(memory);
+        state.userMemories.splice(state.userMemories.indexOf(this.state.selectedMemory), 1, memory)
+        localStorage.setItem('userMemories', JSON.stringify(state.userMemories))
+      },
+      DELETE_USER_MEMORY (state) {
+        const targetMemory = this.state.selectedMemory
+        state.userMemories = state.userMemories.filter((memory) => memory.id != targetMemory.id)
         localStorage.setItem('userMemories', JSON.stringify(state.userMemories))
       },
       ADD_TAGS_TO_MEMORY (state, payload) {
-        const targetMemory = state.userMemories.find(f => f.id === payload.memory_id)
-        targetMemory.tags = payload.tags 
-        console.log(targetMemory) 
+        const targetMemory = this.state.selectedMemory
+        targetMemory.tags = payload
         state.userMemories.splice(state.userMemories.indexOf(targetMemory), 1, targetMemory)
         localStorage.setItem('userMemories', JSON.stringify(state.userMemories))
       },

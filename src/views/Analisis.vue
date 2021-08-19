@@ -2,34 +2,81 @@
   <div>
     <div>
       <b-tabs content-class="mt-3" fill>
-        <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-        <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-        <b-tab title="Very, very long title"
-          ><p>I'm the tab with the very, very long title</p></b-tab
-        >
-        <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
-      </b-tabs>
-    </div>
-    <b-row>
-      <b-col cols="md-6">
-        <BarChart />
-      </b-col>
-      <b-col cols="md-6">
-        <BarChart />
-        <!--
+        <b-tab title="Charts" active>
+          <b-row>
+            <b-col cols="md-6">
+              <b-card title="By feeling" sub-title="">
+                <b-card-text>
+                  <FeelingsChartDoughnut />
+                </b-card-text>
+              </b-card>
+            </b-col>
+            <b-col cols="md-6">
+              <b-card title="By tag" sub-title="">
+                <b-card-text>
+                  <TagsChart />
+                </b-card-text>
+              </b-card>
+              <!--
         <b-img src="https://thechalkboardmag.com/wp-content/uploads/2018/04/feelings-wheel-explained.jpg" fluid alt="Responsive image"></b-img>
         -->
-      </b-col>
-    </b-row>
+            </b-col>
+          </b-row>
+        </b-tab>
+        <b-tab title="Most used words"
+          ><p>Most used words</p>
+          <div>
+            <b-row>
+              <b-col cols="md-6">
+                <b-list-group>
+                  <!--asi se puede loopear un objeto cuando no hay array en vue!!!  -->
+                  <b-list-group-item
+                    v-for="(value, propertyName, index) in mostUsedWords"
+                    :key="index"
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    {{ propertyName }}
+                    <b-badge variant="primary" pill>{{ value }}</b-badge>
+                  </b-list-group-item>
+                </b-list-group>
+              </b-col>
+              <b-col cols="md-6">
+                {{ mostUsedWords }}
+              </b-col>
+            </b-row>
+          </div>
+        </b-tab>
+
+        <b-tab title="Most used tags"><p>Most used tags</p></b-tab>
+        <b-tab title="Foods"><p>Foods</p></b-tab>
+      </b-tabs>
+    </div>
   </div>
 </template>
 <script>
-import BarChart from "@/components/charts/BarChart.vue";
+//import FeelingsChart from "@/components/charts/FeelingsChart.vue";
+import TagsChart from "@/components/charts/TagsChart.vue";
+import FeelingsChartDoughnut from "@/components/charts/FeelingsChartDoughnut.vue";
+import { wordOccurrances } from "@/helpers/stringHelpers.js";
+
 export default {
   name: "Analisis",
   props: {},
   components: {
-    BarChart,
+    //FeelingsChart,
+    TagsChart,
+    FeelingsChartDoughnut,
+  },
+  computed: {
+    mostUsedWords() {
+      const memoriesText = this.$store.state.userMemories
+        .map((x) => x.text)
+        .join();
+      return this.wordOccurrances(memoriesText);
+    },
+  },
+  methods: {
+    wordOccurrances,
   },
 };
 </script>

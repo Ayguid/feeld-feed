@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{ feelings }} -->
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-2"
@@ -22,8 +21,8 @@
         <span v-for="feeling in feelings" :key="feeling.id">
           <Feeling
             @selected_feeling="addToForm($event)"
+            @selected_child="hearChild"
             :feeling="feeling"
-            :flatList="flat(form.feelings)"
           />
         </span>
       </b-form-group>
@@ -38,10 +37,11 @@
         ></b-button>
       </b-form-group>
     </b-form>
-
+    <!--
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
+    -->
   </div>
 </template>
 <script>
@@ -54,11 +54,10 @@ export default {
   data() {
     return {
       mainFeelingsLimit: 2, // 7 to test
-      childFeelingLimit: 1,
       wordMin: 2,
-      form: JSON.parse(JSON.stringify(this.$store.state.selectedMemory)) || {
+      form: {
         isLocked: false,
-        text: "Default delete later",
+        text: "",
         feelings: [],
         tags: [],
       },
@@ -79,27 +78,7 @@ export default {
         feelings = this.$store.state.baseFeelings;
       }
       return feelings;
-
-      /*
-      let feelings;
-
-      const childNodeCondition = this.form.feelings.filter(
-        (feel) => feel.children.length < this.childFeelingLimit
-      );
-
-      if (childNodeCondition.length >= 0) {
-        feelings = this.$store.state.baseFeelings;
-        feelings.forEach((feel) => {
-          feel.children.forEach((child) => {
-            child.children = [];
-          });
-        });
-      } else {
-        feelings = [];
-      }
-
-      return feelings;
-    */
+      //return this.$store.state.baseFeelings
     },
     validateWordCount() {
       return this.form.text.match(/(\w+)/g)?.length >= this.wordMin;
@@ -137,47 +116,30 @@ export default {
       });
     },
     addToForm(obj) {
-      const found =
-        this.flat(this.form.feelings).filter((el) => el.id == obj.id).length >
-        0;
-      //parent add
-      if (!obj.parent_id && !found) return this.form.feelings.push(obj);
-      //parent remove
-      if (!obj.parent_id && found) {
-        return (this.form.feelings = this.form.feelings.filter(
+      //if(obj.parent_id)return
+      //console.log("Master emit received");
+      const found = this.form.feelings.find((feeling) => feeling.id == obj.id);
+      if (found) {
+        //remove
+        this.form.feelings = this.form.feelings.filter(
           (feeling) => feeling.id != obj.id
-        ));
-      }
-      const parent = this.flat(this.form.feelings).find(
-        (feeling) => feeling.id == obj.parent_id
-      );
-      //child add
-      if (obj.parent_id && !found) {
-        //console.log("add child");
-        return parent.children.push(obj);
-        //console.log(parent);
-      }
-      //remove child
-      if (obj.parent_id && found) {
-        return (parent.children = parent.children.filter(
-          (feeling) => feeling.id != obj.id
-        ));
+        );
+      } else {
+        // new parent
+        this.form.feelings.push(obj);
       }
     },
-    flat(array) {
-      // aplanamos el array de feelings en el form
-      var result = [];
-      const obj = this;
-      array.forEach(function(a) {
-        result.push(a);
-        if (Array.isArray(a.children)) {
-          result = result.concat(obj.flat(a.children));
-        }
-      });
-      return result;
+    hearChild() {
+      //console.log("Child emit received");
     },
   },
-  mounted() {},
+  mounted() {
+    if (this.$store.state.selectedMemory) {
+      //en caso de edit pisamos los valores del form
+      this.form = JSON.parse(JSON.stringify(this.$store.state.selectedMemory));
+      this.form.feelings = []; //arreglar esto!! es un bardo poder editarlos, por ahora cuando editan tienen que elegir los feelings desde cero
+    }
+  },
 };
 </script>
 <style scoped>
