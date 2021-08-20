@@ -1,5 +1,5 @@
 import Feelings from './feelings.js'
-
+import FakeFoods from './fakeFood.js'
 
 
 const state = {
@@ -8,7 +8,7 @@ const state = {
   access_token: JSON.parse(localStorage.getItem('access_token')) || '',
   baseFeelings: Feelings.feelings,
   userMemories: JSON.parse(localStorage.getItem('userMemories')) || [],
-  userFoods: JSON.parse(localStorage.getItem('userFoods')) || [],
+  userFoods: JSON.parse(localStorage.getItem('userFoods')) || FakeFoods.foods,
   userTags: JSON.parse(localStorage.getItem('userTags')) || [],
   // ui/component flow facilitators start
   selectedMemory: null

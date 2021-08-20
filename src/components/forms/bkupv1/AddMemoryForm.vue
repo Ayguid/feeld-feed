@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- {{ feelings }} -->
+
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-2"
@@ -16,14 +18,15 @@
 
       <!--<transition name="fade" mode="out-in"> </transition>-->
       <b-form-group v-show="validateWordCount">
-        <h6 class="card-subtitle text-muted mb-2">Please choose 2 feelings</h6>
+        <h6 class="card-subtitle text-muted mb-2">
+          Please choose 1 feeling min.
+        </h6>
         <!--  :color="feeling.color"  -->
         <span v-for="feeling in feelings" :key="feeling.id">
           <Feeling
             @selected_feeling="addToForm($event)"
             :feeling="feeling"
-            :list="flatFormFeelings"
-            :childLimit="childLimit"
+            :flatList="flatFormFeelings"
           />
         </span>
       </b-form-group>
@@ -38,10 +41,11 @@
         ></b-button>
       </b-form-group>
     </b-form>
-
+    <!--
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
+    -->
   </div>
 </template>
 <script>
@@ -54,7 +58,7 @@ export default {
   data() {
     return {
       mainFeelingsLimit: 2, // 7 to test
-      childLimit: 1,
+      childFeelingLimit: 2,
       wordMin: 2,
       form: JSON.parse(JSON.stringify(this.$store.state.selectedMemory)) || {
         isLocked: false,
@@ -67,14 +71,11 @@ export default {
   },
   computed: {
     flatFormFeelings() {
-      return this.form.feelings;
+      return this.flat(this.form.feelings);
     },
     feelings() {
       let feelings;
-      if (
-        this.form.feelings.filter((f) => !f.parent_id).length ==
-        this.mainFeelingsLimit
-      ) {
+      if (this.form.feelings.length == this.mainFeelingsLimit) {
         // main permited feelings
         var activeIds = this.form.feelings.map((a) => a.id); //array con los ids de los feelings seleccionados en el form
         feelings = this.$store.state.baseFeelings.filter(({ id }) =>
@@ -85,7 +86,6 @@ export default {
         feelings = this.$store.state.baseFeelings;
       }
       return feelings;
-      //return this.$store.state.baseFeelings
     },
     validateWordCount() {
       return this.form.text.match(/(\w+)/g)?.length >= this.wordMin;
@@ -123,16 +123,44 @@ export default {
       });
     },
     addToForm(obj) {
-      //if(obj.parent_id)return
-      //console.log("Master emit received");
-      const found = this.form.feelings.find((feeling) => feeling.id == obj.id);
-      if (found) {
-        this.form.feelings = this.form.feelings.filter(
+      const found =
+        this.flat(this.form.feelings).filter((el) => el.id == obj.id).length >
+        0;
+      //parent add
+      if (!obj.parent_id && !found) return this.form.feelings.push(obj);
+      //parent remove
+      if (!obj.parent_id && found) {
+        return (this.form.feelings = this.form.feelings.filter(
           (feeling) => feeling.id != obj.id
-        );
-      } else {
-        this.form.feelings.push(obj);
+        ));
       }
+      const parent = this.flat(this.form.feelings).find(
+        (feeling) => feeling.id == obj.parent_id
+      );
+      //child add
+      if (obj.parent_id && !found) {
+        //console.log("add child");
+        return parent.children.push(obj);
+        //console.log(parent);
+      }
+      //remove child
+      if (obj.parent_id && found) {
+        return (parent.children = parent.children.filter(
+          (feeling) => feeling.id != obj.id
+        ));
+      }
+    },
+    flat(array) {
+      // aplanamos el array de feelings en el form
+      var result = [];
+      const obj = this;
+      array.forEach(function(a) {
+        result.push(a);
+        if (Array.isArray(a.children)) {
+          result = result.concat(obj.flat(a.children));
+        }
+      });
+      return result;
     },
   },
   mounted() {},

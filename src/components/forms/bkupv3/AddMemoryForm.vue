@@ -22,7 +22,7 @@
           <Feeling
             @selected_feeling="addToForm($event)"
             :feeling="feeling"
-            :list="flatFormFeelings"
+            :flatList="flatFormFeelings"
             :childLimit="childLimit"
           />
         </span>
@@ -38,10 +38,11 @@
         ></b-button>
       </b-form-group>
     </b-form>
-
+    <!--
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
+    -->
   </div>
 </template>
 <script>
@@ -67,14 +68,11 @@ export default {
   },
   computed: {
     flatFormFeelings() {
-      return this.form.feelings;
+      return this.flat(this.form.feelings);
     },
     feelings() {
       let feelings;
-      if (
-        this.form.feelings.filter((f) => !f.parent_id).length ==
-        this.mainFeelingsLimit
-      ) {
+      if (this.form.feelings.length == this.mainFeelingsLimit) {
         // main permited feelings
         var activeIds = this.form.feelings.map((a) => a.id); //array con los ids de los feelings seleccionados en el form
         feelings = this.$store.state.baseFeelings.filter(({ id }) =>
@@ -92,6 +90,18 @@ export default {
     },
   },
   methods: {
+    flat(array) {
+      // aplanamos el array de feelings en el form
+      var result = [];
+      const obj = this;
+      array.forEach(function(a) {
+        result.push(a);
+        if (Array.isArray(a.children)) {
+          result = result.concat(obj.flat(a.children));
+        }
+      });
+      return result;
+    },
     onSubmit(event) {
       event.preventDefault();
       //alert(JSON.stringify(this.form))
@@ -127,10 +137,12 @@ export default {
       //console.log("Master emit received");
       const found = this.form.feelings.find((feeling) => feeling.id == obj.id);
       if (found) {
+        //remove
         this.form.feelings = this.form.feelings.filter(
           (feeling) => feeling.id != obj.id
         );
       } else {
+        // new parent
         this.form.feelings.push(obj);
       }
     },

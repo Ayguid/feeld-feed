@@ -90,11 +90,11 @@ export default {
   },
   data() {
     return {
-      modalShow: false, // false
+      modalShow: true, // false
       filterFeeling: null,
       //selectedMemory: {},
       //tagModalShow: false,
-      child_component: "", // ""
+      child_component: MemoryForm, // ""
       MemoryForm,
       MemoryTagForm,
       DeleteMemoryForm,

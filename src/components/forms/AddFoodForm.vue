@@ -80,6 +80,9 @@ export default {
     };
   },
   computed: {
+    flatFormFeelings() {
+      return this.flat(this.form.feelings);
+    },
     validateWordCount() {
       return this.form.text.match(/(\w+)/g)?.length >= this.wordMin;
     },
@@ -90,6 +93,18 @@ export default {
     },
   },
   methods: {
+    flat(array) {
+      // aplanamos el array de feelings en el form
+      var result = [];
+      const obj = this;
+      array.forEach(function(a) {
+        result.push(a);
+        if (Array.isArray(a.children)) {
+          result = result.concat(obj.flat(a.children));
+        }
+      });
+      return result;
+    },
     onSubmit(event) {
       event.preventDefault();
       //alert(JSON.stringify(this.form))

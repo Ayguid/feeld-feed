@@ -1,26 +1,29 @@
 <template>
   <span class="">
-    <!-- :style="{backgroundColor: color}" -->
+    <!-- :style="{backgroundColor: color}"v-show="checkIfShow" -->
+
     <b-button
+      pill
       v-show="checkIfShow"
-      :pressed="selected"
+      :pressed="inForm"
       :variant="'btn btn-' + validateClass(feeling)"
       @click="
         selectFeeling({
           id: feeling.id,
           parent_id: feeling.parent_id,
           label: feeling.label,
+          children: [],
         })
       "
     >
       {{ feeling.label }}
-      <b-badge v-show="selected" variant="light">✔️</b-badge>
+      <b-badge v-show="inForm" variant="light">✔️</b-badge>
     </b-button>
     <!--
     <transition name="fade" mode="out-in"></transition>
     -->
     <!--{{selected}} v-if="selected && feeling.children" -->
-    <span class="" v-if="selected && feeling.children">
+    <span class="" v-if="inForm && feeling.children">
       ⏭️
       <!-- <b-icon icon="arrow-right" scale="1"></b-icon>  ⏭️ -->
       <!-- :color="adjust(color, -20)"-->
@@ -29,12 +32,11 @@
         v-for="child in feeling.children"
         :key="child.id"
       >
-        <!--v-show="checkIfShow(child.id)" -->
+        <!-- v-show="checkIfShow(child.id)" -->
         <Feeling
           @selected_feeling="selectFeeling($event)"
           :feeling="child"
-          :list="list"
-          :childLimit="childLimit"
+          :flatList="flatList"
         />
       </span>
       <br />
@@ -46,39 +48,36 @@
 import Feeling from "@/components/forms/Feeling.vue";
 export default {
   name: "Feeling",
-  props: ["feeling", "list", "childLimit"],
+  props: ["feeling", "flatList"],
   components: {
     Feeling,
   },
   data() {
-    return {};
+    return {
+      childFeelingsLimit: 1,
+    };
   },
   computed: {
-    selected: {
-      get() {
-        return this.list.find((el) => el.id == this.feeling.id) ? true : false;
-      },
-      set(value) {
-        return value;
-      },
-    },
     checkIfShow() {
-      if (!this.feeling.parent_id) return true;
-      const found = this.list.find(
-        (obj) => obj.id === this.feeling.id && obj.parent_id != null
+      //const me = this.flatList.find((obj) => obj.id == this.feeling.id);
+      const parentFeel = this.flatList.find(
+        (obj) => obj.id == this.feeling.parent_id
       );
-      const thisFeelBrothers = this.list.filter(
-        (obj) =>
-          obj.parent_id === this.feeling.parent_id && obj.parent_id != null
-      );
-      if (thisFeelBrothers.length < this.childLimit) {
-        //console.log('all');
+      if (this.feeling.parent_id == null) return true; // si es parent mostrar
+      if (
+        parentFeel.children.length < this.childFeelingsLimit || // si debajo del limite mostrear todos
+        parentFeel.children.find((f) => f.id == this.feeling.id) // if i am present show me
+      ) {
         return true;
-      } else if (found) {
-        //console.log('show me');
-        return true;
+      }
+      return false;
+    },
+    inForm() {
+      if (this.flatList) {
+        return (
+          this.flatList.filter((el) => el.id == this.feeling.id).length > 0
+        );
       } else {
-        //console.log('Hide');
         return false;
       }
     },
@@ -91,25 +90,8 @@ export default {
     },
     selectFeeling(obj) {
       // anda solo en la primer vuelta, para los grandparents
-      this.selected = !this.selected;
-      //this.currentObj = obj;
       this.$emit("selected_feeling", obj); //o para evitar el bind ,,, JSON.parse(JSON.stringify(obj))
     },
   },
-  mounted() {
-    //const feelInForm = this.list.find((el) => el.id == this.feeling.id);
-    //console.log(feelInForm);
-  },
 };
 </script>
-<style scoped>
-/*
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-*/
-</style>
