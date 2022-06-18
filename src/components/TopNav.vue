@@ -11,7 +11,9 @@
                 <b-nav-text>Navbar text</b-nav-text>
                 -->
           <b-nav-item to="/">Memories</b-nav-item>
+          <!--
           <b-nav-item to="/foods">Foods</b-nav-item>
+          -->
           <!--
           <b-nav-item to="/analisis">Analisis</b-nav-item>
           -->

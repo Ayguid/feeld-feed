@@ -3,35 +3,15 @@
     <!-- 
     {{ memory }}
     -->
+
     <b-card title="" :sub-title="formatDate(memory.date)">
       <b-card-text>
         {{ memory.text }}
       </b-card-text>
 
       <b-card-text>
-        <!--
-               {{memory}}
-              -->
-        <span v-for="feeling in memory.feelings" :key="feeling.id">
-          <b-badge variant="light">
-            {{ feeling.label }}
-          </b-badge>
-          <!--
-                {{ feeling.value }} %
-                -->
-          &nbsp;
-          <span v-for="fee in feeling.children" :key="fee.id">
-            <b-badge variant="success">
-              {{ fee.label }}
-            </b-badge>
-            &nbsp;
-            <span v-for="f in fee.children" :key="f.id">
-              <b-badge variant="warning">
-                {{ f.label }}
-              </b-badge>
-            </span>
-            &nbsp;
-          </span>
+        <span v-for="feeling in tree_feelings" :key="feeling.id">
+          <FeelingBadge :feeling="feeling" />
           <hr />
         </span>
 
@@ -76,11 +56,39 @@
   </div>
 </template>
 <script>
+import FeelingBadge from "@/components/cards/FeelingBadge.vue";
 export default {
   name: "Memory",
   props: ["memory"],
+  components: {
+    FeelingBadge,
+  },
   data() {
     return {};
+  },
+  computed: {
+    tree_feelings() {
+      //pasa la lista plana a un arbol de feelings
+      let list = JSON.parse(JSON.stringify(this.memory.feelings)); //JSON.parse(JSON.stringify(this.memory.feelings));
+      var map = {},
+        node,
+        roots = [],
+        i;
+      for (i = 0; i < list.length; i += 1) {
+        map[list[i].id] = i; // initialize the map
+        list[i].children = []; // initialize the children
+      }
+      for (i = 0; i < list.length; i += 1) {
+        node = list[i];
+        if (node.parent_id !== null) {
+          // if you have dangling branches check that map[node.parentId] exists
+          list[map[node.parent_id]].children.push(node);
+        } else {
+          roots.push(node);
+        }
+      }
+      return roots;
+    },
   },
   methods: {
     /*
@@ -97,5 +105,6 @@ export default {
       this.$emit("memory-action", action);
     },
   },
+  mounted() {},
 };
 </script>

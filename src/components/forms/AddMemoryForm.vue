@@ -38,10 +38,11 @@
         ></b-button>
       </b-form-group>
     </b-form>
-
+    <!--
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
+    -->
   </div>
 </template>
 <script>
@@ -122,14 +123,29 @@ export default {
         this.show = true;
       });
     },
+    recursiveChildDelete(obj) {
+      // encontrar a todos mis hijos y nietos y borrarlos
+      for (var i = this.form.feelings.length - 1; i >= 0; --i) {
+        if (this.form.feelings[i].parent_id == obj.id) {
+          const x = this.form.feelings[i];
+          this.form.feelings.splice(i, 1);
+          if (x.parent_id) {
+            this.recursiveChildDelete(x);
+          }
+        }
+      }
+    },
     addToForm(obj) {
       //if(obj.parent_id)return
       //console.log("Master emit received");
       const found = this.form.feelings.find((feeling) => feeling.id == obj.id);
+
       if (found) {
+        //saca al padre y a sus hijos
         this.form.feelings = this.form.feelings.filter(
-          (feeling) => feeling.id != obj.id
+          (feeling) => feeling.id != found.id
         );
+        this.recursiveChildDelete(found);
       } else {
         this.form.feelings.push(obj);
       }

@@ -2,12 +2,12 @@
   <div>
     <div class="bottom-nav-buttons-container">
       <!--other button -->
-      <b-button class="m-2" variant="outline-primary">
+      <b-button to="/chat" class="m-2" variant="outline-primary">
         <b-icon icon="chat-left-dots-fill" aria-hidden="true"></b-icon>
       </b-button>
       <!--add button -->
       <b-button
-        to="analisis"
+        to="/analisis"
         class="m-2"
         type="submit"
         variant="outline-primary"

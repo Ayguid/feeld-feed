@@ -28,7 +28,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
     //beforeEnter: guardMyroute,
     meta: {
-      requiresAuth: true
+      requiresAuth: false//true
     }
   },
   {
@@ -37,7 +37,7 @@ const routes = [
     component: Memories,
     //beforeEnter: guardMyroute,
     meta: {
-      requiresAuth: true
+      requiresAuth: false//true
     }
   },
 
@@ -53,7 +53,18 @@ const routes = [
       requiresAuth: true
     }
   },
-
+  {
+    path: '/chat',
+    name: 'Chat',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chat.vue'),
+    //beforeEnter: guardMyroute,
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/analisis',
     name: 'Analisis',

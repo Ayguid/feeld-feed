@@ -1,5 +1,6 @@
 import Feelings from './feelings.js'
 import FakeFoods from './fakeFood.js'
+import Questions from './questions.js'
 
 
 const state = {
@@ -11,7 +12,8 @@ const state = {
   userFoods: JSON.parse(localStorage.getItem('userFoods')) || FakeFoods.foods,
   userTags: JSON.parse(localStorage.getItem('userTags')) || [],
   // ui/component flow facilitators start
-  selectedMemory: null
+  selectedMemory: null,
+  questions: Questions.questions
 }
 
 export default state
